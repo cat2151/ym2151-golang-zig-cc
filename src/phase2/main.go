@@ -91,8 +91,8 @@ func initializeChip(chip *C.opm_t) {
 	kc := byte(0x4D) // Key code for around 440Hz
 	kf := byte(0x80) // Key fraction
 
-	// Set connection algorithm (algorithm 0 - simple carrier)
-	// RL=11 (both channels), FB=0, CON=7 (all operators as carriers)
+	// Set connection algorithm 7 (all operators as carriers)
+	// RL=11 (both channels), FB=0, CON=7
 	writeReg(0x20, 0xC7) // CH0: RL=11, FB=0, CON=7
 
 	// Configure operator 1 (M1) of channel 0
@@ -129,7 +129,8 @@ func consumeCycles(chip *C.opm_t, duration time.Duration) {
 	// YM2151 runs at 4MHz (typical master clock)
 	// We need to consume cycles for the specified duration
 	masterClock := int64(4000000) // 4MHz
-	cyclesToConsume := int64(duration.Nanoseconds()) * masterClock / int64(time.Second)
+	// Calculate cycles avoiding overflow: (ns / 1e9) * clock_rate
+	cyclesToConsume := duration.Nanoseconds() / 1000 * masterClock / 1000000
 
 	var output [2]C.int32_t
 	var sh1, sh2, so C.uint8_t
