@@ -13,7 +13,8 @@ See [src/phase2/README.md](src/phase2/README.md) for details and build instructi
 ## Requirements
 
 - Go 1.20 or later
-- GCC or Clang (C compiler)
+- Zig 0.11.0 or later (https://ziglang.org/download/)
+  - **Note: GCC and mingw are not allowed. You must use zig cc as the C compiler.**
 - Windows platform (builds also work on Linux for testing)
 
 ## License

@@ -14,22 +14,59 @@ This program generates a 3-second 440Hz (A4 note) WAV file using the Nuked-OPM Y
 ### Prerequisites
 
 - Go 1.20 or later
-- GCC or Clang (C compiler)
+- Zig 0.11.0 or later (https://ziglang.org/download/)
+  - **Note: GCC and mingw are not allowed. You must use zig cc as the C compiler.**
+
+### Installing Zig
+
+#### Option 1: Use the setup script (recommended for local development)
+```bash
+./setup-zig.sh       # On Linux/Mac
+setup-zig.bat        # On Windows
+```
+
+Then add Zig to your PATH as instructed by the script.
+
+#### Option 2: Manual installation
+Download Zig from https://ziglang.org/download/ and extract it to a directory of your choice. Add the zig binary to your PATH.
+
+**Linux/Mac:**
+```bash
+export PATH="/path/to/zig:$PATH"
+```
+
+**Windows:**
+```cmd
+set PATH=C:\path\to\zig;%PATH%
+```
 
 ### Build Steps
+
+1. Ensure zig is installed and in your PATH:
+```bash
+zig version
+```
+
+2. Use the build script:
+```bash
+./build.sh       # On Linux/Mac
+build.bat        # On Windows
+```
+
+Or manually:
 
 1. Compile the C library:
 ```bash
 cd lib
-gcc -c -I. nuked-opm/opm.c -o nuked-opm/opm.o
-gcc -c -I. opm_wrapper.c -o opm_wrapper.o
-ar rcs libopm.a nuked-opm/opm.o opm_wrapper.o
+zig cc -c -I. nuked-opm/opm.c -o nuked-opm/opm.o
+zig cc -c -I. opm_wrapper.c -o opm_wrapper.o
+zig ar rcs libopm.a nuked-opm/opm.o opm_wrapper.o
 cd ..
 ```
 
 2. Build the Go program:
 ```bash
-go build -o phase2.exe
+CC="zig cc" CXX="zig c++" go build -o phase2.exe
 ```
 
 ## Running
