@@ -30,3 +30,10 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# Phase2 outputs
+src/phase2/output.wav
+src/phase2/phase2.exe
+src/phase2/lib/*.o
+src/phase2/lib/*.a
+src/phase2/lib/nuked-opm/*.o
